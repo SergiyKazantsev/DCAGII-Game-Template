@@ -1,5 +1,8 @@
-#include <MainMenuState.hpp>
+#include "MainMenuState.hpp"
 #include <iostream>
+
+Color green = {173, 204, 96, 255};
+Color black = {0, 0, 0, 255};
 
 MainMenuState::MainMenuState()
 {
@@ -24,4 +27,8 @@ void MainMenuState::update(float deltaTime)
 void MainMenuState::render()
 {
     std::cout << "You entered: " << this->entered_key << std::endl;
+    BeginDrawing();
+    ClearBackground(green);
+    DrawText("Bienvenido a\nFlappy Bird DCA", 60, 200, 21, black);
+    EndDrawing();  
 }

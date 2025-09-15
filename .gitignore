@@ -32,10 +32,14 @@
 *.a
 *.lib
 
-# Executables
+# Archivos binarios
 *.exe
 *.out
-*.app
+*.o
+*.obj
+*.dll
+*.so
+*.dylib
 
 # debug information files
 *.dwo
