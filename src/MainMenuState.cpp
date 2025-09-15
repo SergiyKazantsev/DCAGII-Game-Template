@@ -11,24 +11,40 @@ MainMenuState::MainMenuState()
 void MainMenuState::init()
 {
     std::cout << "You are in the Main Menu State" << std::endl;
+    player.x = 200;
+    player.y = 200;
+    player.skip = false;
 }
 
 void MainMenuState::handleInput()
 {
-    std::cout << "Enter a key: ";
-    this->entered_key = std::cin.get();
+    if (IsKeyPressed(KEY_SPACE)) {
+        player.vy = -300.0f;
+        std::cout << "You entered ESPACIO "; 
+    }
 }
 
 void MainMenuState::update(float deltaTime)
-{
+{ 
     this->handleInput();
+    player.vy += 686.0f * deltaTime;
+    player.y += player.vy * deltaTime;
+    std::cout << "player X:" << player.x << ", player Y: " << player.y << ", player VY: " << player.vy << "Delta time: "<< deltaTime << "\n";
 }
 
 void MainMenuState::render()
 {
-    std::cout << "You entered: " << this->entered_key << std::endl;
     BeginDrawing();
     ClearBackground(green);
-    DrawText("Bienvenido a\nFlappy Bird DCA", 60, 200, 21, black);
+    if (!player.skip) {
+        DrawText("Bienvenido a\nFlappy Bird DCA\nPulsa ESPACIO", 60, 200, 21, black);
+        if (IsKeyPressed(KEY_SPACE)) {
+            player.skip = true;
+            player.x = 200;
+            player.y = 200;
+        }
+    } else {
+        DrawCircle(player.x, player.y, 17, RED);
+    }
     EndDrawing();  
 }

@@ -1,5 +1,11 @@
 #pragma once
 #include "GameState.hpp"
+struct Bird {
+    int x;
+    int y;
+    double vy;
+    bool skip;
+};
 
 class MainMenuState : public GameState
 {
@@ -17,5 +23,6 @@ class MainMenuState : public GameState
 
     
     private:
+        Bird player;
         char entered_key;
 };
