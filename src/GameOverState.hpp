@@ -2,11 +2,11 @@
 #include "GameState.hpp"
 #include <deque>
 
-class MainMenuState : public GameState
+class GameOverState : public GameState
 {
     public:
-        MainMenuState();
-        ~MainMenuState() = default;
+        GameOverState();
+        ~GameOverState() = default;
 
         void init() override;
         void handleInput() override;

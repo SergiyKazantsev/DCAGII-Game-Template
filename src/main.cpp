@@ -1,5 +1,7 @@
 #include "StateMachine.hpp"
 #include "MainMenuState.hpp"
+#include "GamingState.hpp"
+#include "GameOverState.hpp"
 #include <memory>
 #include <chrono>
 
@@ -18,6 +20,12 @@ int main()
     SetTargetFPS(60);
     while (!state_machine.is_game_ending() && WindowShouldClose() == false)
     {
+        if (IsKeyPressed(KEY_SPACE)) {
+            GameState* current = state_machine.getCurrentState().get();
+            if (dynamic_cast<MainMenuState*>(current)) {
+                state_machine.add_state(std::make_unique<GamingState>(), true);
+            }
+        }
         delta_time = GetFrameTime();
         state_machine.handle_state_changes(delta_time);
         state_machine.getCurrentState()->update(delta_time);
