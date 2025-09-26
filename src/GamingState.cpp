@@ -14,7 +14,13 @@ void GamingState::init()
     std::cout << "You are in the Gaming State" << std::endl;
     player.x = 200;
     player.y = 200;
+    player.height = 24;
+    player.width = 34;
     this->shouldSwitchState = false;
+
+    this->birdSprite = LoadTexture("./assets/yellowbird-upflap.png");   
+    this->pipeeSprite = LoadTexture("./assets/pipe-green.png");
+    this->background = LoadTexture("./assets/background-day.png");
 }
 
 void GamingState::handleInput()
@@ -32,15 +38,12 @@ void GamingState::update(float deltaTime)
     player.y += player.vy * deltaTime;
     //std::cout << "player X:" << player.x << ", player Y: " << player.y << ", player VY: " << player.vy << "Delta time: "<< deltaTime << "\n";
     
-    player.hitbox.x = player.x-17;
-    player.hitbox.y = player.y-17;
-    player.hitbox.height = 17*2;
-    player.hitbox.width = 17*2;
-    Vector2 origin;
-    origin.x = player.hitbox.width / 2;
-    origin.y = player.hitbox.height / 2;
+    player.hitbox.x = player.x;
+    player.hitbox.y = player.y;
+    player.hitbox.height = player.height;
+    player.hitbox.width = player.width;
 
-    DrawRectangleRec(player.hitbox, black);
+    //DrawRectangleRec(player.hitbox, black);
 
     spawnTimer += deltaTime;
     if(spawnTimer >= spawnEvery) {
@@ -84,11 +87,12 @@ void GamingState::render()
 {
     BeginDrawing();
     ClearBackground(green);
-    DrawCircle(player.x, player.y, 17, RED);
+    DrawTexture(background, 0, 0, WHITE);
+    DrawTexture(this->birdSprite, player.x, player.y, WHITE);
     for (int i = 0; i < pipes.size(); ++i)
     {
-        DrawRectangleRec(pipes[i].top, GREEN);
-        DrawRectangleRec(pipes[i].bot, GREEN);
+        DrawTextureEx(this->pipeeSprite, {pipes[i].top.x + PIPE_W, pipes[i].top.y + PIPE_H}, 180.f, 1.0f, WHITE);
+        DrawTextureEx(this->pipeeSprite, {pipes[i].bot.x , pipes[i].bot.y}, 0.f, 1.0f, WHITE); 
     }
     std::string text = "Puntuación: " + std::to_string(score);
     DrawText(text.c_str(), 20, 20, 30, DARKBLUE);

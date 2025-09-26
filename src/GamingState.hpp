@@ -5,6 +5,8 @@
 struct Bird {
     int x;
     int y;
+    int height;
+    int width;
     double vy;
     Rectangle hitbox;
 };
@@ -42,4 +44,8 @@ class GamingState : public GameState
         float spawnEvery = 1.5f;
         int PIPE_SPACE = 32;
         float PIPE_SPEED = 200.0f;
+
+        Texture2D birdSprite;
+        Texture2D pipeeSprite;
+        Texture2D background;
 };
