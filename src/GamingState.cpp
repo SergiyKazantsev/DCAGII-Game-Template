@@ -6,6 +6,7 @@ Color black = {0, 0, 0, 255};
 
 GamingState::GamingState()
 {
+    this->score = 0;
 }
 
 void GamingState::init()
@@ -13,13 +14,14 @@ void GamingState::init()
     std::cout << "You are in the Gaming State" << std::endl;
     player.x = 200;
     player.y = 200;
+    this->shouldSwitchState = false;
 }
 
 void GamingState::handleInput()
 {
     if (IsKeyPressed(KEY_SPACE)) {
         player.vy = -300.0f;
-        std::cout << "You entered ESPACIO "; 
+        //std::cout << "You entered ESPACIO "; 
     }
 }
 
@@ -43,7 +45,7 @@ void GamingState::update(float deltaTime)
     spawnTimer += deltaTime;
     if(spawnTimer >= spawnEvery) {
         spawnTimer = 0.0f;
-        int pipe_y_offset_top = GetRandomValue(PIPE_H/1.5, GetScreenWidth()/3);
+        int pipe_y_offset_top = GetRandomValue(PIPE_H/2, GetScreenWidth()/2);
         PipePair pipePair;
         pipePair.top.x = GetScreenWidth();
         pipePair.bot.x = GetScreenWidth();
@@ -63,14 +65,15 @@ void GamingState::update(float deltaTime)
     {
         pipes[i].top.x -= PIPE_SPEED * deltaTime;
         pipes[i].bot.x -= PIPE_SPEED * deltaTime;
-        if(CheckCollisionRecs(pipes[i].top, player.hitbox) || CheckCollisionRecs(pipes[i].bot, player.hitbox)) {
-            DrawText("COLISION!", 110, 224, 21, RED);
+        if(CheckCollisionRecs(pipes[i].top, player.hitbox) || CheckCollisionRecs(pipes[i].bot, player.hitbox) || player.y > GetScreenHeight() || player.y < -100) {
+            this->shouldSwitchState = true;
+            return;
         }
-        /*
-        if(pipes[i].top.x + 64 <= 200) {
+        if(pipes[i].top.x + PIPE_W <= player.x && pipes[i].scored == false) {
+            std::cout << "Scoring! Pipe x: " << pipes[i].top.x << ", Player x: " << player.x << std::endl;
             pipes[i].scored = true;
-            DrawText("SCORED!", 110, 224, 21, black);
-        }*/
+            this->score++;
+        }
         if(pipes.front().top.x < 0 - PIPE_W) {
             pipes.pop_front();
         }
@@ -82,11 +85,12 @@ void GamingState::render()
     BeginDrawing();
     ClearBackground(green);
     DrawCircle(player.x, player.y, 17, RED);
-
     for (int i = 0; i < pipes.size(); ++i)
     {
         DrawRectangleRec(pipes[i].top, GREEN);
         DrawRectangleRec(pipes[i].bot, GREEN);
     }
+    std::string text = "Puntuación: " + std::to_string(score);
+    DrawText(text.c_str(), 20, 20, 30, DARKBLUE);
     EndDrawing();  
 }

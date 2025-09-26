@@ -23,6 +23,9 @@ class GameState
 
         void setStateMachine(StateMachine* stt_mch) {state_machine = stt_mch;}
 
+        bool shouldSwitchState;
+        int score;
     protected:
         StateMachine* state_machine;
+        
 };

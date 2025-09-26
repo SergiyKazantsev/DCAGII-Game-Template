@@ -20,9 +20,13 @@ int main()
     SetTargetFPS(60);
     while (!state_machine.is_game_ending() && WindowShouldClose() == false)
     {
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (state_machine.getCurrentState()->shouldSwitchState == true) {
             GameState* current = state_machine.getCurrentState().get();
-            if (dynamic_cast<MainMenuState*>(current)) {
+            if (dynamic_cast<GamingState*>(current)) {
+                auto gameover = std::make_unique<GameOverState>();
+                gameover->score = current->score;
+                state_machine.add_state(std::move(gameover), true);
+            } else {
                 state_machine.add_state(std::make_unique<GamingState>(), true);
             }
         }
