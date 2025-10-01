@@ -38,7 +38,7 @@ class GamingState : public GameState
         Bird player;
         char entered_key;
         std::deque<PipePair> pipes;
-        int PIPE_W = 64;
+        int PIPE_W = 52;
         int PIPE_H = 320;
         float spawnTimer = 0.0f;
         float spawnEvery = 1.5f;
@@ -48,4 +48,8 @@ class GamingState : public GameState
         Texture2D birdSprite;
         Texture2D pipeeSprite;
         Texture2D background;
+
+        Sound point;
+        Sound die;
+        Sound wing;
 };

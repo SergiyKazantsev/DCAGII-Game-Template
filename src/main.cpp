@@ -17,6 +17,7 @@ int main()
     state_machine.handle_state_changes(delta_time);
 
     InitWindow(288, 512, "Flappy Bird DCA");
+    InitAudioDevice();
     SetTargetFPS(60);
     while (!state_machine.is_game_ending() && WindowShouldClose() == false)
     {

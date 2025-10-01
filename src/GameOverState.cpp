@@ -8,7 +8,7 @@ GameOverState::GameOverState()
 
 void GameOverState::init()
 {
-    std::cout << "You are in the Game Over State" << std::endl;
+    //std::cout << "You are in the Game Over State" << std::endl;
     this->shouldSwitchState = false;
 
 }

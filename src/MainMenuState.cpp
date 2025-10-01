@@ -8,7 +8,7 @@ MainMenuState::MainMenuState()
 
 void MainMenuState::init()
 {
-    std::cout << "You are in the Main Menu State" << std::endl;
+    //std::cout << "You are in the Main Menu State" << std::endl;
     this->shouldSwitchState = false;
 
 }
